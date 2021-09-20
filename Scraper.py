@@ -137,7 +137,9 @@ def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, 
             a_k.append(d[id_process][1])
             er.append(d[id_process][2])
         
-        
+        o_t = [item for sublist in o_t for item in sublist]
+        a_k = [item for sublist in a_k for item in sublist]
+        er = [item for sublist in er for item in sublist]
 
     scraper_logic(title_xpath, description_xpath, urlMaker, ids ,close_reopen_driver)
     
