@@ -12,6 +12,11 @@ from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.common.keys import Keys
 import multiprocessing
 
+
+NR_OF_PROCESSES = 5
+
+
+
 def read_ids(filename):
     df = pandas.read_excel(filename, sheet_name= "Sheet1")
     ids = df["Part Number"]
@@ -42,15 +47,11 @@ def error_write_file(er, result_path):
 
 
 
-def scraper_logic(o_t, a_k, er, urlMaker, close_reopen_driver= False):
-    pass
+def scraper_logic(id_curent_process, d, title_xpath , description_xpath , urlMaker, ids ,close_reopen_driver= False):
+    o_t = []
+    a_k = []
+    er = []
 
-
-def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, description_xpath, urlMaker, close_reopen_driver= False):
-
-    filename_path = path + "/" + excel_input_filename
-    ids = read_ids(filename_path)
-    
     driver = None
     if close_reopen_driver == False:
         driver = webdriver.Chrome(executable_path= 'chromedriver.exe')
@@ -87,6 +88,58 @@ def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, 
     if close_reopen_driver == False:
         driver.close()
 
+
+    d[id_curent_process] = [o_t, a_k, er]
+
+
+def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, description_xpath, urlMaker, close_reopen_driver= False):
+
+    filename_path = path + "/" + excel_input_filename
+    ids = read_ids(filename_path)
+
+    with multiprocessing.Manager() as manager:
+        d = manager.dict()
+
+        i = 0
+        j = unitate = len(ids)/ NR_OF_PROCESSES
+        jobs = []
+        j = int(j)
+        unitate = int(unitate)
+        id_curent_process = 0
+
+        while j <= len(ids) + 1:
+            ids_curent_process = ids[i:j]
+            p = multiprocessing.Process(target = scraper_logic, args=(id_curent_process, d, title_xpath, description_xpath, urlMaker, ids_curent_process, close_reopen_driver))
+            id_curent_process += 1
+            jobs.append(p)
+
+            i += unitate
+            j += unitate
+
+        if i < len(ids) and j != len(ids) + 1:
+            j = len(ids) + 1
+            ids_curent_process = ids[i:j]
+            p = multiprocessing.Process(target = scraper_logic, args=(id_curent_process, d, title_xpath, description_xpath, urlMaker, ids_curent_process, close_reopen_driver))
+            id_curent_process += 1
+            jobs.append(p)
+
+        for job in jobs:
+            job.start()
+
+        for job in jobs:
+            job.join()
+        
+        
+        id_curent_process -= 1
+
+        for id_process in range(id_curent_process):
+            o_t.append(d[id_process][0])
+            a_k.append(d[id_process][1])
+            er.append(d[id_process][2])
+        
+        
+
+    scraper_logic(title_xpath, description_xpath, urlMaker, ids ,close_reopen_driver)
     
     only_title_write_file(o_t, result_path)
     all_okay_write_file(a_k, result_path)
