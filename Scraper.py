@@ -130,7 +130,6 @@ def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, 
             job.join()
         
         
-        id_curent_process -= 1
 
         for id_process in range(id_curent_process):
             o_t.append(d[id_process][0])
