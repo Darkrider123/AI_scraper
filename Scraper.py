@@ -141,7 +141,6 @@ def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, 
         a_k = [item for sublist in a_k for item in sublist]
         er = [item for sublist in er for item in sublist]
 
-    scraper_logic(title_xpath, description_xpath, urlMaker, ids ,close_reopen_driver)
     
     only_title_write_file(o_t, result_path)
     all_okay_write_file(a_k, result_path)
