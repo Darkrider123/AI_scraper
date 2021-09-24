@@ -13,8 +13,10 @@ from selenium.webdriver.common.keys import Keys
 import multiprocessing
 
 
-NR_OF_PROCESSES = 10
-
+NR_OF_PROCESSES = 20
+options = webdriver.ChromeOptions()
+options.add_argument("--incognito")
+#options.add_argument("--headless")
 
 
 def read_ids(filename):
@@ -54,12 +56,12 @@ def scraper_logic(id_curent_process, d, title_xpath , description_xpath , urlMak
 
     driver = None
     if close_reopen_driver == False:
-        driver = webdriver.Chrome(executable_path= 'chromedriver.exe')
+        driver = webdriver.Chrome(executable_path= 'chromedriver.exe', chrome_options = options)
 
     for id in ids:
 
         if close_reopen_driver == True:
-            driver = webdriver.Chrome(executable_path= 'chromedriver.exe')
+            driver = webdriver.Chrome(executable_path= 'chromedriver.exe', chrome_options = options)
         urlMaker.make_url(id)
         formated_url = urlMaker.url 
         driver.get(formated_url)
