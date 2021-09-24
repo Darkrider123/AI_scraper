@@ -82,7 +82,7 @@ def some_ai_try():
     train_features, _ = normalize_data(train_features, train_features, "l1")
 
 
-    ms = MeanShift(bandwidth= 0.06, n_jobs= -1)
+    ms = MeanShift(bandwidth= 0.06, n_jobs= 5)
     ms.fit(train_features)
 
     labels = ms.labels_
@@ -102,4 +102,4 @@ def some_ai_try():
 
 
 if __name__ == '__main__':
-    scrape_weidmueller()
+    scrape_pheonix()

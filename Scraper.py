@@ -13,7 +13,7 @@ from selenium.webdriver.common.keys import Keys
 import multiprocessing
 
 
-NR_OF_PROCESSES = 5
+NR_OF_PROCESSES = 10
 
 
 
@@ -83,10 +83,10 @@ def scraper_logic(id_curent_process, d, title_xpath , description_xpath , urlMak
             error_add(id, er)
         
         if close_reopen_driver == True:
-            driver.close()
+            driver.quit()
 
     if close_reopen_driver == False:
-        driver.close()
+        driver.quit()
 
 
     d[id_curent_process] = [o_t, a_k, er]
