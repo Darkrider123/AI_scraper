@@ -3,7 +3,6 @@ from Scraper import *
 from BagOfWords import *
 from DataNormalization import *
 from sklearn.cluster import MeanShift
-import matplotlib.pyplot as plt
 
 
 def scrape_weidmueller():
@@ -39,6 +38,7 @@ def some_ai_try():
     df = pandas.read_excel("Weidmueller/results/all_ok.xlsx", sheet_name = "Sheet1")
     ids = df[0]
     descriptions = df[2]
+    companies = df[3]
 
     aux = list()
 
@@ -55,7 +55,7 @@ def some_ai_try():
     aux = list()
 
     for description in descriptions:
-        description = description.upper()
+        description = str(description).upper()
         description = description.replace(",", "")
 
         for color in colors:
@@ -69,11 +69,11 @@ def some_ai_try():
         aux.append(id)
     ids = aux
 
+    aux = list()
+    for company in companies:
+        aux.append(company)
+    companies = aux
 
-
-
-    descriptions = descriptions
-    ids = ids
 
 
     bow = Bag_of_words()
@@ -93,8 +93,8 @@ def some_ai_try():
 
     rez = []
 
-    for id, description, label in zip (ids, descriptions, labels):
-        rez.append([id, description, label])
+    for id, description, company, label in zip (ids, descriptions, companies, labels):
+        rez.append([id, description, company ,label])
 
     df = pandas.DataFrame(rez)
     df.to_excel("Crossref_AI.xlsx")
@@ -102,4 +102,4 @@ def some_ai_try():
 
 
 if __name__ == '__main__':
-    scrape_pheonix()
+    some_ai_try()

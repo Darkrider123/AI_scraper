@@ -13,10 +13,10 @@ from selenium.webdriver.common.keys import Keys
 import multiprocessing
 
 
-NR_OF_PROCESSES = 20
+NR_OF_PROCESSES = 40
 options = webdriver.ChromeOptions()
 options.add_argument("--incognito")
-#options.add_argument("--headless")
+options.add_argument("--headless")
 
 
 def read_ids(filename):
