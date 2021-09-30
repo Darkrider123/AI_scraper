@@ -13,10 +13,6 @@ from selenium.webdriver.common.keys import Keys
 import multiprocessing
 
 
-NR_OF_PROCESSES = 40
-options = webdriver.ChromeOptions()
-options.add_argument("--incognito")
-options.add_argument("--headless")
 
 
 def read_ids(filename):
@@ -48,8 +44,15 @@ def error_write_file(er, result_path):
     data_frame_er.to_excel(result_path + "/error.xlsx")
 
 
+def additional_steps_function(driver, additional_steps):
+    try:
+        if additional_steps == True:
+            driver.click("/html/body/div[3]/div/div/div[2]/div/div[4]/div[1]/div[2]/div[2]/div[2]/div[2]/div/div[1]/div/div[1]/div[3]/a/p/span[2]")
+    except:
+        pass
 
-def scraper_logic(id_curent_process, d, title_xpath , description_xpath , urlMaker, ids ,close_reopen_driver= False):
+
+def scraper_logic(id_curent_process, d, title_xpath , description_xpath , urlMaker, ids ,close_reopen_driver= False, additional_steps = False, options = None):
     o_t = []
     a_k = []
     er = []
@@ -65,6 +68,8 @@ def scraper_logic(id_curent_process, d, title_xpath , description_xpath , urlMak
         urlMaker.make_url(id)
         formated_url = urlMaker.url 
         driver.get(formated_url)
+
+        additional_steps_function(driver, additional_steps)
 
         try:
 
@@ -94,7 +99,7 @@ def scraper_logic(id_curent_process, d, title_xpath , description_xpath , urlMak
     d[id_curent_process] = [o_t, a_k, er]
 
 
-def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, description_xpath, urlMaker, close_reopen_driver= False):
+def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, description_xpath, urlMaker, close_reopen_driver= False, additional_steps= False, options=None, nr_of_processes = 5):
 
     filename_path = path + "/" + excel_input_filename
     ids = read_ids(filename_path)
@@ -103,7 +108,7 @@ def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, 
         d = manager.dict()
 
         i = 0
-        j = unitate = len(ids)/ NR_OF_PROCESSES
+        j = unitate = len(ids)/ nr_of_processes
         jobs = []
         j = int(j)
         unitate = int(unitate)
@@ -111,7 +116,7 @@ def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, 
 
         while j <= len(ids) + 1:
             ids_curent_process = ids[i:j]
-            p = multiprocessing.Process(target = scraper_logic, args=(id_curent_process, d, title_xpath, description_xpath, urlMaker, ids_curent_process, close_reopen_driver))
+            p = multiprocessing.Process(target = scraper_logic, args=(id_curent_process, d, title_xpath, description_xpath, urlMaker, ids_curent_process, close_reopen_driver, additional_steps, options))
             id_curent_process += 1
             jobs.append(p)
 
@@ -121,7 +126,7 @@ def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, 
         if i < len(ids) and j != len(ids) + 1:
             j = len(ids) + 1
             ids_curent_process = ids[i:j]
-            p = multiprocessing.Process(target = scraper_logic, args=(id_curent_process, d, title_xpath, description_xpath, urlMaker, ids_curent_process, close_reopen_driver))
+            p = multiprocessing.Process(target = scraper_logic, args=(id_curent_process, d, title_xpath, description_xpath, urlMaker, ids_curent_process, close_reopen_driver, additional_steps, options))
             id_curent_process += 1
             jobs.append(p)
 
