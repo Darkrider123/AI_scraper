@@ -47,7 +47,7 @@ def scrape_eaton():
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")
     #options.add_argument("--headless")
-    nr_of_processes = 12
+    nr_of_processes = 3
 
     o_t = []
     a_k = []
@@ -109,7 +109,7 @@ def some_ai_try():
     train_features, _ = normalize_data(train_features, train_features, "l1")
 
 
-    ms = MeanShift(bandwidth= 0.06, n_jobs= 5)
+    ms = MeanShift(bandwidth= 0.06, n_jobs= -1)
     ms.fit(train_features)
 
     labels = ms.labels_
