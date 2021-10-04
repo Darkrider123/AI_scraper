@@ -129,4 +129,4 @@ def some_ai_try():
 
 
 if __name__ == '__main__':
-    scrape_eaton()
+    pass
