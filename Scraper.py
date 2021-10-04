@@ -1,11 +1,7 @@
 import pandas
 from pandas.io import excel
-import requests
-from bs4 import BeautifulSoup
 import selenium
 from selenium import webdriver
-import time
-import io
 from webdriver_manager.chrome import ChromeDriverManager
 import os
 from selenium.common.exceptions import ElementClickInterceptedException
