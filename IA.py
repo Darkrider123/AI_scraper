@@ -9,7 +9,7 @@ def scrape_weidmueller():
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")
     #options.add_argument("--headless")
-    nr_of_processes = 6
+    nr_of_processes = 5
 
     o_t = []
     a_k = []
@@ -62,7 +62,7 @@ def scrape_eaton():
 
 
 def some_ai_try():
-    df = pandas.read_excel("Weidmueller/results/all_ok.xlsx", sheet_name = "Sheet1")
+    df = pandas.read_excel("appended_results/results.xlsx", sheet_name = "Sheet1")
     ids = df[0]
     descriptions = df[2]
     companies = df[3]
@@ -129,4 +129,4 @@ def some_ai_try():
 
 
 if __name__ == '__main__':
-    pass
+    scrape_weidmueller()
