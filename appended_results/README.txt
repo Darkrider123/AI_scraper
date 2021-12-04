@@ -1,0 +1,1 @@
+The results have to be manually appended from the results folder of each company of interest in "results.xlsx"
