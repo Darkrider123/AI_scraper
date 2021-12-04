@@ -60,7 +60,7 @@ def scrape_eaton():
 
 
 def main():
-    scrape_pheonix()
+    scrape_weidmueller()
 
 if __name__ == '__main__':
     main()
