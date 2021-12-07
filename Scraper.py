@@ -2,6 +2,7 @@ import pandas
 import selenium
 from selenium import webdriver
 import multiprocessing
+import os
 
 
 
@@ -24,15 +25,15 @@ def error_add(id, er):
 
 def only_title_write_file(o_t, result_path):
     data_frame_only_title = pandas.DataFrame(o_t)
-    data_frame_only_title.to_excel(result_path + "/only_title.xlsx")
+    data_frame_only_title.to_excel(os.path.join(result_path + "only_title.xlsx"))
 
 def all_okay_write_file(a_k, result_path):
     data_frame_ok = pandas.DataFrame(a_k)
-    data_frame_ok.to_excel(result_path + "/all_ok.xlsx")
+    data_frame_ok.to_excel(os.path.join(result_path + "all_ok.xlsx"))
 
 def error_write_file(er, result_path):
     data_frame_er = pandas.DataFrame(er)
-    data_frame_er.to_excel(result_path + "/error.xlsx")
+    data_frame_er.to_excel(os.path.join(result_path + "error.xlsx"))
 
 
 def additional_steps_function(driver, additional_steps):
@@ -92,7 +93,7 @@ def scraper_logic(id_curent_process, d, title_xpath , description_xpath , urlMak
 
 def scraper(o_t, a_k, er, path, result_path, excel_input_filename, title_xpath, description_xpath, urlMaker, close_reopen_driver= False, additional_steps= False, options=None, nr_of_processes = 5):
 
-    filename_path = path + "/" + excel_input_filename
+    filename_path = os.path.join(path , excel_input_filename)
     ids = read_ids(filename_path)
 
     with multiprocessing.Manager() as manager:

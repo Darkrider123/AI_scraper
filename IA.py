@@ -1,4 +1,5 @@
 import pandas
+import os
 
 from BagOfWords import *
 from DataNormalization import *
@@ -8,7 +9,7 @@ from sklearn.cluster import MeanShift
 
 
 def classify_data():
-    df = pandas.read_excel("appended_results/results.xlsx", sheet_name = "Sheet1")
+    df = pandas.read_excel(os.path.join("appended_results" , "results.xlsx"), sheet_name = "Sheet1")
     ids = df[0]
     descriptions = df[2]
     companies = df[3]

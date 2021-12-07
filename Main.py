@@ -13,7 +13,7 @@ def scrape_weidmueller():
     er = []
     path = "Weidmueller"
     excel_input_filename = "Pricelist_Weidmueller_edit.xlsx"
-    result_path = path + "/results"
+    result_path = os.path.join(path , "results")
     title_xpath = "/html/body/div[3]/div[2]/div[1]/div[3]/ul/li/div[2]/a/span[1]"
     description_xpath = "/html/body/div[3]/div[2]/div[1]/div[3]/ul/li/div[2]/a/p"
     urlMaker = UrlMakerWeidmueller()
@@ -32,7 +32,7 @@ def scrape_pheonix():
     er = []
     path = "Phoenix"
     excel_input_filename = "Pricelist_Phoenix_Contact_edit.xlsx"
-    result_path = path + "/results"
+    result_path = os.path.join(path , "results")
     title_xpath = "/html/body/div[1]/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/div/h1"
     description_xpath = "/html/body/div[1]/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/div/div[9]/div[1]/div[2]/div[1]/p"
     urlMaker = UrlMakerPhoenix()
@@ -51,7 +51,7 @@ def scrape_eaton():
     er = []
     path = "Eaton"
     excel_input_filename = "Pricelist_Phoenix_Contact_edit.xlsx"
-    result_path = path + "/results"
+    result_path = os.path.join(path , "results")
     title_xpath = "/html/body/div[3]/div[1]/div/div[2]/div[1]/div[1]/div[1]/div/div[5]/div[1]/div[1]/div/div[1]/div/div/div[2]/h1"
     description_xpath = "/html/body/div[3]/div[1]/div/div[2]/div[1]/div[1]/div[1]/div/div[5]/div[1]/div[1]/div/div[1]/div/div/div[2]/div[1]"
     urlMaker = UrlMakerEaton()
